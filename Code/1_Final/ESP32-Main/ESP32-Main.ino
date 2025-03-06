@@ -4,12 +4,12 @@
 #define INPUT_PIN_one 5 // (Working)
 #define INPUT_PIN_two 4 // (Working)
 // ---------------------------------------------------------------------------
-const int LID_OPEN_ANGLE = 0;  /// Pwede niyo iadjust yung degrees ng Servo motor.
-const int LID_CLOSE_ANGLE = 90;   /// Pwede niyo iadjust yung degrees ng Servo motor.
+const int LID_OPEN_ANGLE = 0;        /// Pwede niyo iadjust yung degrees ng Servo motor.
+const int LID_CLOSE_ANGLE = 90;      /// Pwede niyo iadjust yung degrees ng Servo motor.
 const int LID_OPEN_ANGLE_rev = 270;  /// Pwede niyo iadjust yung degrees ng Servo motor. LID 1 ONLY
-const int LID_CLOSE_ANGLE_rev = 90;   /// Pwede niyo iadjust yung degrees ng Servo motor. LID 1 ONLY
-const int STEP_DELAY = 5;        /// Delay per added angle.
-const int ANGLE_STEP = 10;       /// Angle per step delay.
+const int LID_CLOSE_ANGLE_rev = 90;  /// Pwede niyo iadjust yung degrees ng Servo motor. LID 1 ONLY
+const int STEP_DELAY = 5;            /// Delay per added angle.
+const int ANGLE_STEP = 10;           /// Angle per step delay.
 Servo lidServo1, lidServo2, lidServo3;  // Don't change
 String material_text;                   // Don't change
 ///------------------------------------------------------///
@@ -43,6 +43,10 @@ const int buzzerPin1 = 35;  // (Working)
 const int buzzerPin2 = 34;  // (Working) 
 const int buzzerPin3 = 32;  // (Working) 
 
+/// --------------------Added Pins for Moisture Sensor---------------//
+#define moisture_sensor 13 /// change this if not applicable
+int moist_threshold = 600; /// change the threshold value if needed
+
 // ---------- Don't change --------------- //
 void setup() {
     Serial.begin(115200);
@@ -75,6 +79,7 @@ void setup() {
 void loop() {
     int state_one = digitalRead(INPUT_PIN_one);
     int state_two = digitalRead(INPUT_PIN_two);
+    int wet_waste = analogRead(moisture_sensor);
 
     if (state_one == 0 && state_two == 0) 
     {
@@ -83,9 +88,9 @@ void loop() {
         closeLid(2);
         closeLid(3);        
     } 
-    else if (state_one == 1 && state_two == 0) 
+    else if (wet_waste < moist_threshold) 
     {
-        material_text = "Metal";
+        material_text = "Wet";
         openLid_rev(1);
         closeLid(2);
         closeLid(3);
