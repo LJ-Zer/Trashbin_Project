@@ -81,14 +81,7 @@ void loop() {
     int state_two = digitalRead(INPUT_PIN_two);
     int wet_waste = analogRead(moisture_sensor);
 
-    if (state_one == 0 && state_two == 0) 
-    {
-        material_text = "Unknown";
-        closeLid_rev(1);
-        closeLid(2);
-        closeLid(3);        
-    } 
-    else if (wet_waste < moist_threshold) 
+    if (wet_waste < moist_threshold) 
     {
         material_text = "Wet";
         openLid_rev(1);
@@ -99,8 +92,16 @@ void loop() {
         closeLid(2);
         closeLid(3); 
     } 
+    if (state_one == 0 && state_two == 0) 
+    {
+        material_text = "Unknown";
+        closeLid_rev(1);
+        closeLid(2);
+        closeLid(3);        
+    } 
     else if (state_one == 0 && state_two == 1) 
     {
+        material_text = "Plastic";
         closeLid_rev(1);
         openLid(2);
         closeLid(3);
