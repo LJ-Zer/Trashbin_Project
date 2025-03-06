@@ -1,5 +1,5 @@
 /* Includes ---------------------------------------------------------------- */
-#include <Trained_2>
+#include <Lelouch007-project-1_inferencing.h>
 #include "edge-impulse-sdk/dsp/image/image.hpp"
 #include "esp_camera.h"
 #define CAMERA_MODEL_AI_THINKER // Has PSRAM
