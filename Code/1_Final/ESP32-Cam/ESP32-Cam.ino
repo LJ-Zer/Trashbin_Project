@@ -167,13 +167,13 @@ void loop()
             digitalWrite(OUTPUT_PIN_two, LOW);
             material_text = "Unknown";
         } 
-        // If confidence is >= 50%, classify based on material type
-        else if (strcmp(bb.label, "Metal") == 0) {
-            material_type = 1;
-            digitalWrite(OUTPUT_PIN_one, HIGH);
-            digitalWrite(OUTPUT_PIN_two, LOW);
-            material_text = "Metal";
-        } 
+        // // If confidence is >= 50%, classify based on material type
+        // else if (strcmp(bb.label, "Metal") == 0) {
+        //     material_type = 1;
+        //     digitalWrite(OUTPUT_PIN_one, HIGH);
+        //     digitalWrite(OUTPUT_PIN_two, LOW);
+        //     material_text = "Metal";
+        // } 
         else if (strcmp(bb.label, "Plastic") == 0) {
             material_type = 2;
             digitalWrite(OUTPUT_PIN_one, LOW);
