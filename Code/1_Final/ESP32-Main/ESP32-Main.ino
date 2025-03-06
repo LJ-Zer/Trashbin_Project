@@ -40,8 +40,8 @@ const int servoPin3 = 14; //mag trial and error kayo doon sa mga available pins 
 //// Note: Trail and Error din kayo sa available pins, choose Digital Pin. Check for the pinouts for ESP32.
 ////       https://www.upesy.com/cdn/shop/files/doc-esp32-pinout-reference-wroom-devkit.png?width=692
 const int buzzerPin1 = 35;  // (Working)
-const int buzzerPin2 = 34;  // (Working) 
-const int buzzerPin3 = 32;  // (Working) 
+const int buzzerPin2 = 34;  // (Working)  /// removing buzzer
+const int buzzerPin3 = 32;  // (Working)  /// removing buzzer
 
 /// --------------------Added Pins for Moisture Sensor---------------//
 #define moisture_sensor 13 /// change this if not applicable
@@ -71,8 +71,8 @@ void setup() {
     lidServo3.write(LID_CLOSE_ANGLE);
 
     pinMode(buzzerPin1, OUTPUT);
-    pinMode(buzzerPin2, OUTPUT);
-    pinMode(buzzerPin3, OUTPUT);
+    pinMode(buzzerPin2, OUTPUT); /// removing buzzer
+    pinMode(buzzerPin3, OUTPUT); /// removing buzzer
 }
 // ------------------------------------------------ //
 // Note: for this loop, you change the behavior each situation. 
@@ -150,9 +150,9 @@ void loop() {
   {
     Serial.println("Opening lid 2 and buzz sound");
     openLid(2);
-    buzz(2);
+    buzz(1);
     delay (5000);
-    stopBuzz(2);
+    stopBuzz(1);
 
   } 
   //// Note: During calibration, change the value of 95, percentage to, meaning if greater than 95% na yung bin, 
@@ -161,9 +161,9 @@ void loop() {
   {
     Serial.println("Opening lid 3 and buzz sound");
     openLid(3);
-    buzz(3);
+    buzz(1);
     delay (5000);
-    stopBuzz(3);
+    stopBuzz(1);
   } 
   //// Note: If yung bin niyo ay hindi pa puno, close lids pa and mags-stop yung buzz. 
   ////       You can adjust yung mga behavior if you want to, like yung delays.
@@ -174,8 +174,8 @@ void loop() {
     closeLid(2);
     closeLid(3);
     stopBuzz(1);
-    stopBuzz(2);
-    stopBuzz(3);
+    // stopBuzz(2); /// removing buzz
+    // stopBuzz(3); /// removing buzz
   }
 }
 
