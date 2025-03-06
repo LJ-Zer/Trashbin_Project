@@ -4,8 +4,10 @@
 #define INPUT_PIN_one 5 // (Working)
 #define INPUT_PIN_two 4 // (Working)
 // ---------------------------------------------------------------------------
-const int LID_OPEN_ANGLE = 180;  /// Pwede niyo iadjust yung degrees ng Servo motor.
-const int LID_CLOSE_ANGLE = 0;   /// Pwede niyo iadjust yung degrees ng Servo motor.
+const int LID_OPEN_ANGLE = 0;  /// Pwede niyo iadjust yung degrees ng Servo motor.
+const int LID_CLOSE_ANGLE = 90;   /// Pwede niyo iadjust yung degrees ng Servo motor.
+const int LID_OPEN_ANGLE_rev = 270;  /// Pwede niyo iadjust yung degrees ng Servo motor. LID 1 ONLY
+const int LID_CLOSE_ANGLE_rev = 90;   /// Pwede niyo iadjust yung degrees ng Servo motor. LID 1 ONLY
 const int STEP_DELAY = 5;        /// Delay per added angle.
 const int ANGLE_STEP = 10;       /// Angle per step delay.
 Servo lidServo1, lidServo2, lidServo3;  // Don't change
@@ -77,39 +79,39 @@ void loop() {
     if (state_one == 0 && state_two == 0) 
     {
         material_text = "Unknown";
-        closeLid(1);
+        closeLid_rev(1);
         closeLid(2);
         closeLid(3);        
     } 
     else if (state_one == 1 && state_two == 0) 
     {
         material_text = "Metal";
-        openLid(1);
+        openLid_rev(1);
         closeLid(2);
         closeLid(3);
         delay(5000);
-        closeLid(1);
+        closeLid_rev(1);
         closeLid(2);
         closeLid(3); 
     } 
     else if (state_one == 0 && state_two == 1) 
     {
-        closeLid(1);
+        closeLid_rev(1);
         openLid(2);
         closeLid(3);
         delay(5000);
-        closeLid(1);
+        closeLid_rev(1);
         closeLid(2);
         closeLid(3);         
     } 
     else if (state_one == 1 && state_two == 1) 
     {
         material_text = "Paper";
-        closeLid(1);
+        closeLid_rev(1);
         closeLid(2);
         openLid(3);
         delay(5000);
-        closeLid(1);
+        closeLid_rev(1);
         closeLid(2);
         closeLid(3);   
     }
@@ -132,7 +134,7 @@ void loop() {
   if (freeSpace1 > 95) 
   {
     Serial.println("Opening lid 1 and buzz sound");
-    openLid(1);
+    openLid_rev(1);
     buzz(1);
     delay (5000);
     stopBuzz(1);
@@ -163,7 +165,7 @@ void loop() {
   else 
   {
     Serial.println("All lids are close");
-    closeLid(1);
+    closeLid_rev(1);
     closeLid(2);
     closeLid(3);
     stopBuzz(1);
@@ -205,6 +207,37 @@ void closeLid(int servo)
   lidServo->write(LID_CLOSE_ANGLE);
 }
 
+void openLid_rev(int servo) 
+{
+  Servo* lidServo;
+  if (servo == 1) lidServo = &lidServo1;
+  else if (servo == 2) lidServo = &lidServo2;
+  else if (servo == 3) lidServo = &lidServo3;
+  else return;
+
+  for (int angle = LID_CLOSE_ANGLE_rev; angle <= LID_OPEN_ANGLE_rev; angle += ANGLE_STEP) 
+  {
+    lidServo->write(angle);
+    delay(STEP_DELAY);
+  }
+  lidServo->write(LID_OPEN_ANGLE_rev);
+}
+
+void closeLid_rev(int servo) 
+{
+  Servo* lidServo;
+  if (servo == 1) lidServo = &lidServo1;
+  else if (servo == 2) lidServo = &lidServo2;
+  else if (servo == 3) lidServo = &lidServo3;
+  else return;
+
+  for (int angle = LID_OPEN_ANGLE_rev; angle >= LID_CLOSE_ANGLE_rev; angle -= ANGLE_STEP) 
+  {
+    lidServo->write(angle);
+    delay(STEP_DELAY);
+  }
+  lidServo->write(LID_CLOSE_ANGLE_rev);
+}
 float measureFreeSpace(int trigPin, int echoPin) 
 {
     long duration;
